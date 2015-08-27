@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <title>Fantasy Football Facts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+</head>
+
+<body ng-controller="Controller as c">
+    <div class="container">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href>Fantasy Football Facts</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href ng-click="c.changeView('injuries')">Injuries</a></li>
+                        <li><a href ng-click="c.changeView('byes')">Team Byes</a></li>
+                        <li class="dropdown">
+                            <a href class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Players<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href ng-click="c.changeView('QB')">QB</a></li>
+                                <li><a href ng-click="c.changeView('RB')">RB</a></li>
+                                <li><a href ng-click="c.changeView('WR')">WR</a></li>
+                                <li><a href ng-click="c.changeView('TE')">TE</a></li>
+                                <li><a href ng-click="c.changeView('K')">K</a></li>
+                                <li><a href ng-click="c.changeView('D')">D</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div ng-show="!c.loading === true && c.view === 'injuries'">
+                    <table class="table" style="width: 100%">
+                        <thead>
+                            <th>
+                                Injury
+                            </th>
+                        </thead>
+                        <tr ng-repeat="injury in c.data.Injuries">
+                            <tr>
+                                {{ injury }}
+                            </tr>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-show="!c.loading === true && c.view === 'byes'">
+                    <div ng-repeat="(k, v) in c.data">
+                        <h4>{{ k }}</h4>
+                        <table class="table" style="width: 100%">
+                            <thead>
+                                <th style="width: 50%";>Team Name</th>
+                                <th style="width: 50%">Abbreviation</th>
+                            </thead>
+                            <tr ng-repeat="bye in v">
+                                <td style="width: 50%">{{ bye.displayName }}</td>
+                                <td style="width: 50%">{{ bye.team }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div ng-show="!c.loading === true && (c.view !== 'injuries' && c.view !== 'byes')">
+                    <h4>Players - {{ c.view }}</h4>
+                    <table class="table" style="width: 100%">
+                        <thead>
+                            <th>#</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Height</th>
+                            <th>Weight</th>
+                            <th>Team</th>
+                        </thead>
+                        <tr ng-repeat="player in c.data.Players">
+                            <td>{{ player.jersey }}</td>
+                            <td>{{ player.fname }}</td>
+                            <td>{{ player.lname }}</td>
+                            <td>{{ player.height }}</td>
+                            <td>{{ player.weight }}</td>
+                            <td>{{ player.team }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-show="c.loading === true">
+                    <h1>LOADING</h1>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/angular.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/myjs.js"></script>
+</body>
+
+</html>
